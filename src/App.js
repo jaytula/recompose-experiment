@@ -1,19 +1,15 @@
 import React from "react";
+import { Map, fromJS, List } from "immutable";
 
-import { Map, fromJS, List } from 'immutable';
+import { defaultProps, withPropsOnChange } from "recompose";
 
-import {
-  defaultProps,
-  withPropsOnChange
-} from "recompose";
-
-const enhance3 = defaultProps({ config: fromJS({sorting: { options: [], i18n: {options: {}}}})});
+const enhance3 = defaultProps({
+  config: fromJS({ sorting: { options: [], i18n: { options: {} } } })
+});
 const enhance4 = withPropsOnChange(["config"], ({ config, selected }) => {
-  console.log({config});
-
   const labels = config.getIn(["sorting", "i18n", "options"]);
   if (!labels) return;
-  
+
   const items = config
     .getIn(["sorting", "options"])
     .map(i =>
@@ -22,8 +18,8 @@ const enhance4 = withPropsOnChange(["config"], ({ config, selected }) => {
         labels[[i.get("field"), i.get("order")].filter(i => i).join("|")]
       )
     )
-    .clear() 
-  // const items = List([])  // <--- Probably do this instead and erase above
+    .clear()
+    // const items = List([])  // <--- Probably do this instead and erase above
     .push(new Map({ field: "default", order: "", label: "Best Selling" }))
     .push(
       new Map({ field: "price", order: "asc", label: "Price, low to high" })
@@ -50,7 +46,7 @@ const App = enhance3(
   enhance4(({ items }) => (
     <ul>
       {items.map(item => (
-        <li key={item.label}>[{item.getIn(['label'])}]</li>
+        <li key={item.label}>[{item.getIn(["label"])}]</li>
       ))}
     </ul>
   ))
