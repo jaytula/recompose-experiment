@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Map, fromJS } from 'immutable';
+import { Map, fromJS, List } from 'immutable';
 
 import {
   defaultProps,
@@ -22,7 +22,8 @@ const enhance4 = withPropsOnChange(["config"], ({ config, selected }) => {
         labels[[i.get("field"), i.get("order")].filter(i => i).join("|")]
       )
     )
-    .clear()
+    .clear() 
+  // const items = List([])  // <--- Probably do this instead and erase above
     .push(new Map({ field: "default", order: "", label: "Best Selling" }))
     .push(
       new Map({ field: "price", order: "asc", label: "Price, low to high" })
